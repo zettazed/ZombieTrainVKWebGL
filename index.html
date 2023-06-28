@@ -145,23 +145,21 @@
       });
     }
 
-    vkBridge.subscribe(eventHandler); 
-    function eventHandler(e) {
-
-      const { type, data } = e.detail;
-      switch(type) {
-        case 'VKWebAppViewHide':
-          unityInstance.SendMessage('VKManager', 'AudioOff', JSON.stringify(data.result)); // Останавливаем воспроизведение аудио 
-          break;
-        case 'VKWebAppViewRestore': 
-          unityInstance.SendMessage('VKManager', 'AudioOn', JSON.stringify(data.result)); // Запускаем воспроизведение
-          break;
-                
-          // Обработчики других событий
-          // ...
-
-        }
-    }
+    vkBridge.subscribe((e) => {
+      if (e.detail.type === 'VKWebAppViewHide') {
+        unityInstance.SendMessage('VKManager', 'AudioOff', JSON.stringify(data.result)); // Останавливаем воспроизведение аудио 
+        // Действия при переключении
+        // из игры или мини приложения
+      }
+    });
+    
+    vkBridge.subscribe((e) => {
+      if (e.detail.type === 'VKWebAppViewRestore') {
+        unityInstance.SendMessage('VKManager', 'AudioOn', JSON.stringify(data.result)); // Запускаем воспроизведение
+        // Действия при восстановлении 
+        // экрана игры или мини приложения
+      }
+    });
 
     jQuery(document).ready(function($) // страница прогружена
     {
