@@ -104,6 +104,7 @@
 
     function showInterstitial ()
     {
+      //asd
       vkBridge.send('VKWebAppShowNativeAds', {ad_format:"interstitial"}).then(data => {unityInstance.SendMessage('VKManager', 'LoadNextSceneDelegate', JSON.stringify(data.result));});
     }
 
